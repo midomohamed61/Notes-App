@@ -1,5 +1,6 @@
 import 'package:fire/auth/login_screen.dart';
 import 'package:fire/auth/register_screen.dart';
+import 'package:fire/categories/add.dart';
 import 'package:fire/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +55,7 @@ class _MyAppState extends State<MyApp> {
         "signup": (context) => SignUp(),
         "login": (context) => Login(),
         "homepage": (context) => Homepage(),
+        "addCategories": (context) => AddCategories(),
       },
     );
   }
