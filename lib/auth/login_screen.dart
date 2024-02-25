@@ -115,7 +115,7 @@ class _LoginState extends State<Login> {
                               context: context,
                               dialogType: DialogType.success,
                               animType: AnimType.rightSlide,
-                              title: 'warnning',
+                              title: 'warning',
                               desc: 'see your email.',
                             ).show();
                           } catch (e) {

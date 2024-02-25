@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fire/categories/edit.dart';
+import 'package:fire/note/view_note.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -45,7 +46,7 @@ class _HomepageState extends State<Homepage> {
           child: Icon(Icons.add),
         ),
         appBar: AppBar(
-          title: const Text('Firebase Install'),
+          title: const Text('HomePage'),
           actions: [
             IconButton(
                 onPressed: () async {
@@ -66,6 +67,9 @@ class _HomepageState extends State<Homepage> {
                     crossAxisCount: 2, mainAxisSpacing: 160),
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
+                    onTap: (){
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => NoteView(categoryId: data[index].id)));
+                    },
                     onLongPress: () {
                       AwesomeDialog(
                           context: context,
@@ -95,11 +99,17 @@ class _HomepageState extends State<Homepage> {
                         padding: EdgeInsets.all(10),
                         child: Column(
                           children: [
-                            Image.asset(
-                              'assets/images/logo.png',
-                              height: 100,
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/images/logo.png',
+                                  height: 100,
+                                ),
+                                Text('${data[index]['name']}')
+                              ],
                             ),
-                            Text('${data[index]['name']}')
                           ],
                         ),
                       ),
