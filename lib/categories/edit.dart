@@ -6,14 +6,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class AddCategories extends StatefulWidget {
-  AddCategories({super.key});
-
+class EditCategory extends StatefulWidget {
+  EditCategory({super.key, required this.docId, required this.oldName});
+  final String docId;
+  final String oldName;
   @override
-  State<AddCategories> createState() => _AddCategoriesState();
+  State<EditCategory> createState() => _EditCategoryState();
 }
 
-class _AddCategoriesState extends State<AddCategories> {
+class _EditCategoryState extends State<EditCategory> {
   GlobalKey<FormState> formstate = GlobalKey<FormState>();
 
   TextEditingController name = TextEditingController();
@@ -22,30 +23,33 @@ class _AddCategoriesState extends State<AddCategories> {
 
   bool isLoading = false;
 
-   addCategories() async{
-     if (formstate.currentState!.validate()) {
-       try{
-         isLoading = true;
-         setState(() {
+  editCategories() async{
+    if (formstate.currentState!.validate()) {
+      try{
+        isLoading = true;
+        setState(() {
 
-         });
-         DocumentReference response = await categories
-           .add({
-         'name': name.text,
-         'id':FirebaseAuth.instance.currentUser!.uid,
-       });
-       Navigator.of(context as BuildContext).pushNamedAndRemoveUntil('homepage',(route) => false);
-       }
-       catch(e){
-         isLoading = false;
-         setState(() {
+        });
+          await categories.doc(widget.docId).update({
+            'name':name.text
+          });
 
-         });
-         print(e);
-       }
-     }
+        Navigator.of(context as BuildContext).pushNamedAndRemoveUntil('homepage',(route) => false);
+      }
+      catch(e){
+        isLoading = false;
+        setState(() {
+
+        });
+        print(e);
+      }
+    }
   }
 
+  void initState(){
+    name.text = widget.oldName;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,9 +71,9 @@ class _AddCategoriesState extends State<AddCategories> {
                 }),
           ),
           CustomButtonAuth(
-            title: 'Add',
+            title: 'Edit',
             onPressed: () {
-              addCategories();
+              editCategories();
             },
           ),
         ]),
